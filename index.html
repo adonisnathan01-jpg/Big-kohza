@@ -3,46 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Mod de Jeu</title>
+    <title>SYSTEM CRITICAL ERROR</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #121212; color: white; padding: 50px; }
-        .btn { display: inline-block; padding: 15px 25px; background-color: #00ff66; color: black; font-weight: bold; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .console-line {
+            opacity: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: #00ff00;
+        }
+        #alert-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: black;
+            border: 3px solid red;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 20px red;
+            z-index: 100;
+        }
+        #alert-box h1 {
+            color: red;
+            font-size: 2em;
+            margin-bottom: 20px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <h1>Bienvenue sur mon site de Mods !</h1>
-    <p>Télécharge et installe mes scripts d'automatisation en un clic.</p>
-    
-    <!-- Remplace le # par le lien RAW de ton script .user.js de l'étape précédente -->
-    <a href="#" class="btn">Installer le Mod Aimbot</a>
-</body>
-</html>
-// ==UserScript==
-// @name         Mon Super Mod Aimbot
-// @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Exemple de script d'automatisation
-// @author       VotreNom
-// @match        https://le-site-du-jeu.com/*
-// @grant        none
-// ==/UserScript==
 
-(function () {
-    'use strict';
+    <div id="console"></div>
 
-    // Simuler une cible (ex: un joueur)
-    const target = { x: 100, y: 100 };
-
-    // Simuler la position du joueur
-    const player = { x: 0, y: 0 };
-
-    // Simuler le tir automatique
-    function aimbot() {
-        const dx = target.x - player.x;
-        const dy = target.y - player.y;
-        console.log(`Tir vers la cible à la position (${target.x}, ${target.y})`);
-    }
-
-    // Appeler le bot toutes les 100 ms
-    setInterval(aimbot, 100);
-})();
+    <div id="alert-box">
+        <h1>
