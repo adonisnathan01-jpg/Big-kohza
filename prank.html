@@ -3,114 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Secret</title>
+    <title>Sneakers Horizon - Boutique Officielle</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         body {
-            background-color: #050505;
-            color: #444;
-            font-family: serif;
+            background-color: #f4f4f7;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             overflow: hidden;
-            transition: background 0.1s;
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s;
         }
-        #text {
-            font-size: 1.2em;
-            text-align: center;
-            max-width: 500px;
-            cursor: pointer;
-            user-select: none;
+        .product-card:hover {
+            transform: translateY(-5px);
         }
-        #jumpscare {
-            display: none;
+        .image-container {
+            background-color: #ff5722;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #333;
             color: white;
-            font-family: monospace;
-            font-size: 8px;
-            line-height: 8px;
-            white-space: pre;
-            text-shadow: 0 0 10px red;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 20px;
+            text-transform: uppercase;
         }
-        .scary-mode {
-            background-color: red !important;
+        .shoe-img {
+            width: 85%;
+            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.3));
+            transform: rotate(-15px);
+        }
+        .details {
+            padding: 25px;
+        }
+        .title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .category {
+            color: #888;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .price {
+            font-size: 1.8rem;
+            color: #ff5722;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .size-selector {
+            margin-bottom: 25px;
+        }
+        .size-title {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .sizes {
+            display: flex;
+            gap: 10px;
+        }
+        .size-btn {
+            border: 2px solid #ddd;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .size-btn:hover {
+            border-color: #333;
+        }
+        .size-btn.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+        .buy-btn {
+            width: 100%;
+            background: #ff5722;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .buy-btn:hover {
+            background: #e64a19;
+        }
+        #message-confirmation {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
-    <div id="text">
-        <p style="font-style: italic;">Cliquez n'importe où sur l'écran pour débloquer le contenu...</p>
-        <p id="subtext" style="display:none; color: #222;">Montez le son de votre téléphone, approchez-vous de l'écran et attendez l'analyse...</p>
-    </div>
-
-    <div id="jumpscare">
- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
- ░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░
- ░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░
- ░░░░░▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒░░░░░
- ░░░░▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒░░░░
- ░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░
- ░░░▒▒▒▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒░░░
- ░░░▒▒▒▒▒▒▒▒██████▒▒▒▒▒▒▒▒▒▒░░░
- ░░░░▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒░░░░
- ░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░
- ░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░
+    <div class="product-card">
+        <div class="image-container">
+            <span class="badge">Édition Limitée</span>
+            <!-- Utilisation d'une image d'exemple de chaussure de sport transparente -->
+            <img class="shoe-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60" alt="Chaussure Horizon">
+        </div>
+        
+        <div class="details">
+            <p class="category">Running / Sport</p>
+            <h1 class="title">Aero-Volt X1</h1>
+            <div class="price">129,99 €</div>
+            
+            <div class="size-selector">
+                <p class="size-title">Sélectionner la pointure :</p>
+                <div class="sizes">
+                    <button class="size-btn" onclick="selectSize(this)">41</button>
+                    <button class="size-btn" onclick="selectSize(this)">42</button>
+                    <button class="size-btn active" onclick="selectSize(this)">43</button>
+                    <button class="size-btn" onclick="selectSize(this)">44</button>
+                </div>
+            </div>
+            
+            <button class="buy-btn" onclick="ajouterAuPanier()">Ajouter au panier</button>
+            <div id="message-confirmation">Le produit a bien été ajouté à votre panier !</div>
+        </div>
     </div>
 
     <script>
-        const body = document.body;
-        const textDiv = document.getElementById('text');
-        const subtext = document.getElementById('subtext');
-        const jumpscareDiv = document.getElementById('jumpscare');
+        // Gère la sélection visuelle de la taille
+        function selectSize(button) {
+            const buttons = document.querySelectorAll('.size-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
 
-        // Obligatoire : l'utilisateur doit cliquer pour que le navigateur autorise le son
-        body.addEventListener('click', () => {
-            subtext.style.display = 'block';
-            textDiv.querySelector('p').style.display = 'none';
-
-            // Déclenchement après 4 secondes
+        // Simule l'ajout au panier
+        function ajouterAuPanier() {
+            const message = document.getElementById('message-confirmation');
+            message.style.display = 'block';
+            
+            // Cache le message automatiquement après 3 secondes
             setTimeout(() => {
-                textDiv.style.display = 'none';
-                jumpscareDiv.style.display = 'block';
-                body.classList.add('scary-mode');
-
-                // Génère un son strident via l'API Audio du téléphone/PC
-                try {
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioCtx.createOscillator();
-                    const gainNode = audioCtx.createGain();
-
-                    oscillator.type = 'sawtooth'; // Son agressif
-                    oscillator.frequency.setValueAtTime(150, audioCtx.currentTime); // Basse lourde qui monte
-                    oscillator.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.4);
-
-                    gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioCtx.destination);
-                    
-                    oscillator.start();
-                    oscillator.stop(audioCtx.currentTime + 1.5); // Durée du cri : 1.5s
-                } catch (e) {
-                    console.log("Audio non supporté ou bloqué");
-                }
-
-                // Effet de clignotement fou
-                let flashCount = 0;
-                const interval = setInterval(() => {
-                    body.style.backgroundColor = body.style.backgroundColor === 'red' ? 'black' : 'red';
-                    flashCount++;
-                    if (flashCount > 10) {
-                        clearInterval(interval);
-                        body.style.backgroundColor = 'black';
-                    }
-                }, 50);
-
-            }, 4000);
-        }, { once: true }); // Le clic ne marche qu'une fois
+                message.style.display = 'none';
+            }, 3000);
+        }
     </script>
+
 </body>
 </html>
-
