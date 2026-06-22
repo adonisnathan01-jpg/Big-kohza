@@ -3,222 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM CRITICAL ERROR</title>
+    <title>Le Secret</title>
     <style>
         body {
-            background-color: black;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 20px;
+            background-color: #050505;
+            color: #444;
+            font-family: serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             overflow: hidden;
+            transition: background 0.1s;
         }
-        .console-line {
-            opacity: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            margin: 5px 0;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-        .success {
-            color: #00ff00;
-        }
-        #alert-box {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: black;
-            border: 3px solid red;
-            padding: 30px;
+        #text {
+            font-size: 1.2em;
             text-align: center;
-            box-shadow: 0 0 20px red;
-            z-index: 100;
+            max-width: 500px;
+            cursor: pointer;
+            user-select: none;
         }
-        #alert-box h1 {
-            color: red;
-            font-size: 2em;
-            margin-bottom: 20px;
-            animation: blink 1s infinite;
+        #jumpscare {
+            display: none;
+            color: white;
+            font-family: monospace;
+            font-size: 8px;
+            line-height: 8px;
+            white-space: pre;
+            text-shadow: 0 0 10px red;
         }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
+        .scary-mode {
+            background-color: red !important;
         }
     </style>
 </head>
 <body>
 
-    <div id="console"></div>
+    <div id="text">
+        <p style="font-style: italic;">Cliquez n'importe où sur l'écran pour débloquer le contenu...</p>
+        <p id="subtext" style="display:none; color: #222;">Montez le son de votre téléphone, approchez-vous de l'écran et attendez l'analyse...</p>
+    </div>
 
-    <div id="alert-box">
-        <h1>⚠️ ALERTE SYSTÈME ⚠️</h1>
-        <p style="font-size: 1.5em; color: white;">Frédéric, vous venez de vous faire hack.</p>
-        <p style="color: #666;">Toutes vos données ont été copiées.</p>
+    <div id="jumpscare">
+ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+ ░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░
+ ░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░
+ ░░░░░▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒░░░░░
+ ░░░░▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒░░░░
+ ░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░
+ ░░░▒▒▒▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒░░░
+ ░░░▒▒▒▒▒▒▒▒██████▒▒▒▒▒▒▒▒▒▒░░░
+ ░░░░▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒░░░░
+ ░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░
+ ░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░
     </div>
 
     <script>
-        const lines = [
-            "Connecting to root@system_server...",
-            "Connection established via port 443.",
-            "Bypassing firewall... [OK]",
-            "Extracting browser history... [OK]",
-            "Accessing local files... [OK]",
-            "Downloading passwords database... 25%",
-            "Downloading passwords database... 50%",
-            "Downloading passwords database... 100% [DONE]",
-            "INTRUSION DETECTED BY USER",
-            "Wiping logs...",
-            "LOCKING SYSTEM..."
-        ];
+        const body = document.body;
+        const textDiv = document.getElementById('text');
+        const subtext = document.getElementById('subtext');
+        const jumpscareDiv = document.getElementById('jumpscare');
 
-        const consoleDiv = document.getElementById('console');
-        let currentLine = 0;
+        // Obligatoire : l'utilisateur doit cliquer pour que le navigateur autorise le son
+        body.addEventListener('click', () => {
+            subtext.style.display = 'block';
+            textDiv.querySelector('p').style.display = 'none';
 
-        function typeLine() {
-            if (currentLine < lines.length) {
-                const p = document.createElement('p');
-                p.className = 'console-line';
-                p.textContent = `> ${lines[currentLine]}`;
-                
-                // Colorer certaines lignes en rouge
-                if (lines[currentLine].includes('ERROR') || lines[currentLine].includes('LOCKING')) {
-                    p.classList.add('error');
-                } else {
-                    p.classList.add('success');
+            // Déclenchement après 4 secondes
+            setTimeout(() => {
+                textDiv.style.display = 'none';
+                jumpscareDiv.style.display = 'block';
+                body.classList.add('scary-mode');
+
+                // Génère un son strident via l'API Audio du téléphone/PC
+                try {
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+
+                    oscillator.type = 'sawtooth'; // Son agressif
+                    oscillator.frequency.setValueAtTime(150, audioCtx.currentTime); // Basse lourde qui monte
+                    oscillator.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.4);
+
+                    gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    
+                    oscillator.start();
+                    oscillator.stop(audioCtx.currentTime + 1.5); // Durée du cri : 1.5s
+                } catch (e) {
+                    console.log("Audio non supporté ou bloqué");
                 }
 
-                consoleDiv.appendChild(p);
-                p.style.opacity = 1;
-                
-                currentLine++;
-                setTimeout(typeLine, 600); // Vitesse d'apparition des lignes
-            } else {
-                // Une fois le faux chargement fini, on affiche le gros panneau pour Frédéric
-                setTimeout(() => {
-                    document.getElementById('alert-box').style.display = 'block';
-                }, 1000);
-            }
-        }
+                // Effet de clignotement fou
+                let flashCount = 0;
+                const interval = setInterval(() => {
+                    body.style.backgroundColor = body.style.backgroundColor === 'red' ? 'black' : 'red';
+                    flashCount++;
+                    if (flashCount > 10) {
+                        clearInterval(interval);
+                        body.style.backgroundColor = 'black';
+                    }
+                }, 50);
 
-        // Lance le prank après 1 seconde sur la page
-        setTimeout(typeLine, 1000);
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM CRITICAL ERROR</title>
-    <style>
-        body {
-            background-color: black;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 20px;
-            overflow: hidden;
-        }
-        .console-line {
-            opacity: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            margin: 5px 0;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-        .success {
-            color: #00ff00;
-        }
-        #alert-box {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: black;
-            border: 3px solid red;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 0 20px red;
-            z-index: 100;
-        }
-        #alert-box h1 {
-            color: red;
-            font-size: 2em;
-            margin-bottom: 20px;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-    </style>
-</head>
-<body>
-
-    <div id="console"></div>
-
-    <div id="alert-box">
-        <h1>⚠️ ALERTE SYSTÈME ⚠️</h1>
-        <p style="font-size: 1.5em; color: white;">Frédéric, vous venez de vous faire hack.</p>
-        <p style="color: #666;">Toutes vos données ont été copiées.</p>
-    </div>
-
-    <script>
-        const lines = [
-            "Connecting to root@system_server...",
-            "Connection established via port 443.",
-            "Bypassing firewall... [OK]",
-            "Extracting browser history... [OK]",
-            "Accessing local files... [OK]",
-            "Downloading passwords database... 25%",
-            "Downloading passwords database... 50%",
-            "Downloading passwords database... 100% [DONE]",
-            "INTRUSION DETECTED BY USER",
-            "Wiping logs...",
-            "LOCKING SYSTEM..."
-        ];
-
-        const consoleDiv = document.getElementById('console');
-        let currentLine = 0;
-
-        function typeLine() {
-            if (currentLine < lines.length) {
-                const p = document.createElement('p');
-                p.className = 'console-line';
-                p.textContent = `> ${lines[currentLine]}`;
-                
-                // Colorer certaines lignes en rouge
-                if (lines[currentLine].includes('ERROR') || lines[currentLine].includes('LOCKING')) {
-                    p.classList.add('error');
-                } else {
-                    p.classList.add('success');
-                }
-
-                consoleDiv.appendChild(p);
-                p.style.opacity = 1;
-                
-                currentLine++;
-                setTimeout(typeLine, 600); // Vitesse d'apparition des lignes
-            } else {
-                // Une fois le faux chargement fini, on affiche le gros panneau pour Frédéric
-                setTimeout(() => {
-                    document.getElementById('alert-box').style.display = 'block';
-                }, 1000);
-            }
-        }
-
-        // Lance le prank après 1 seconde sur la page
-        setTimeout(typeLine, 1000);
+            }, 4000);
+        }, { once: true }); // Le clic ne marche qu'une fois
     </script>
 </body>
 </html>
