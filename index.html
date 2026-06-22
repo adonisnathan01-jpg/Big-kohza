@@ -17,3 +17,32 @@
     <a href="#" class="btn">Installer le Mod Aimbot</a>
 </body>
 </html>
+// ==UserScript==
+// @name         Mon Super Mod Aimbot
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  Exemple de script d'automatisation
+// @author       VotreNom
+// @match        https://le-site-du-jeu.com/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+    'use strict';
+
+    // Simuler une cible (ex: un joueur)
+    const target = { x: 100, y: 100 };
+
+    // Simuler la position du joueur
+    const player = { x: 0, y: 0 };
+
+    // Simuler le tir automatique
+    function aimbot() {
+        const dx = target.x - player.x;
+        const dy = target.y - player.y;
+        console.log(`Tir vers la cible à la position (${target.x}, ${target.y})`);
+    }
+
+    // Appeler le bot toutes les 100 ms
+    setInterval(aimbot, 100);
+})();
