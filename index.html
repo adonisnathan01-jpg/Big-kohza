@@ -56,4 +56,57 @@
     <div id="console"></div>
 
     <div id="alert-box">
-        <h1>
+        <h1>⚠️ ALERTE SYSTÈME ⚠️</h1>
+        <p style="font-size: 1.5em; color: white;">Frédéric, vous venez de vous faire hack.</p>
+        <p style="color: #666;">Toutes vos données ont été copiées.</p>
+    </div>
+
+    <script>
+        const lines = [
+            "Connecting to root@system_server...",
+            "Connection established via port 443.",
+            "Bypassing firewall... [OK]",
+            "Extracting browser history... [OK]",
+            "Accessing local files... [OK]",
+            "Downloading passwords database... 25%",
+            "Downloading passwords database... 50%",
+            "Downloading passwords database... 100% [DONE]",
+            "INTRUSION DETECTED BY USER",
+            "Wiping logs...",
+            "LOCKING SYSTEM..."
+        ];
+
+        const consoleDiv = document.getElementById('console');
+        let currentLine = 0;
+
+        function typeLine() {
+            if (currentLine < lines.length) {
+                const p = document.createElement('p');
+                p.className = 'console-line';
+                p.textContent = `> ${lines[currentLine]}`;
+                
+                // Colorer certaines lignes en rouge
+                if (lines[currentLine].includes('ERROR') || lines[currentLine].includes('LOCKING')) {
+                    p.classList.add('error');
+                } else {
+                    p.classList.add('success');
+                }
+
+                consoleDiv.appendChild(p);
+                p.style.opacity = 1;
+                
+                currentLine++;
+                setTimeout(typeLine, 600); // Vitesse d'apparition des lignes
+            } else {
+                // Une fois le faux chargement fini, on affiche le gros panneau pour Frédéric
+                setTimeout(() => {
+                    document.getElementById('alert-box').style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        // Lance le prank après 1 seconde sur la page
+        setTimeout(typeLine, 1000);
+    </script>
+</body>
+</html>
